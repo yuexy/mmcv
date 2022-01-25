@@ -1564,3 +1564,37 @@ void convex_giou_impl(const Tensor pointsets, const Tensor polygons,
 
 REGISTER_DEVICE_IMPL(convex_iou_impl, CUDA, convex_iou_cuda);
 REGISTER_DEVICE_IMPL(convex_giou_impl, CUDA, convex_giou_cuda);
+
+void BezierAlignForwardCUDAKernelLauncher(Tensor input, Tensor beziers,
+                                          Tensor output, int pooled_height,
+                                          int pooled_width, float spatial_scale);
+
+void BezierAlignBackwardCUDAKernelLauncher(Tensor grad_output, Tensor beziers,
+                                           Tensor grad_input, int pooled_height,
+                                           int pooled_width, float spatial_scale);
+
+void bezier_align_forward_cuda(Tensor input, Tensor beziers, Tensor output,
+                               int pooled_height, int pooled_width,
+                               float spatial_scale) {
+  BezierAlignForwardCUDAKernelLauncher(
+      input, beziers, output, pooled_height, pooled_width, spatial_scale);
+}
+
+void bezier_align_backward_cuda(Tensor grad_output, Tensor beziers,
+                                Tensor grad_input, int pooled_height,
+                                int pooled_width, float spatial_scale) {
+  BezierAlignBackwardCUDAKernelLauncher(
+      grad_output, beziers, grad_input, pooled_height, pooled_width,
+      spatial_scale);
+}
+
+void bezier_align_forward_impl(Tensor input, Tensor beziers, Tensor output,
+                               int pooled_height, int pooled_width,
+                               float spatial_scale);
+
+void bezier_align_backward_impl(Tensor grad_output, Tensor beziers,
+                                Tensor grad_input, int pooled_height,
+                                int pooled_width, float spatial_scale);
+
+REGISTER_DEVICE_IMPL(bezier_align_forward_impl, CUDA, bezier_align_forward_cuda);
+REGISTER_DEVICE_IMPL(bezier_align_backward_impl, CUDA, bezier_align_backward_cuda);

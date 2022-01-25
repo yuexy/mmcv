@@ -375,6 +375,14 @@ void convex_iou(const Tensor pointsets, const Tensor polygons, Tensor ious);
 
 void convex_giou(const Tensor pointsets, const Tensor polygons, Tensor output);
 
+void bezier_align_forward(Tensor input, Tensor beziers, Tensor output,
+                          int pooled_height, int pooled_width,
+                          float spatial_scale);
+
+void bezier_align_backward(Tensor grad_output, Tensor beziers,
+                           Tensor grad_input, int pooled_height,
+                           int pooled_width, float spatial_scale);
+
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   m.def("upfirdn2d", &upfirdn2d, "upfirdn2d (CUDA)", py::arg("input"),
         py::arg("kernel"), py::arg("up_x"), py::arg("up_y"), py::arg("down_x"),
@@ -755,4 +763,12 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
         py::arg("polygons"), py::arg("ious"));
   m.def("convex_giou", &convex_giou, "convex_giou", py::arg("pointsets"),
         py::arg("polygons"), py::arg("output"));
+  m.def("bezier_align_forward", &bezier_align_forward, "bezier_align forward",
+        py::arg("input"), py::arg("beziers"), py::arg("output"),
+        py::arg("pooled_height"), py::arg("pooled_width"),
+        py::arg("spatial_scale"));
+  m.def("bezier_align_backward", &bezier_align_backward,
+        "bezier_align backward", py::arg("grad_output"), py::arg("beziers"),
+        py::arg("grad_input"), py::arg("pooled_height"), py::arg("pooled_width"),
+        py::arg("spatial_scale"));
 }

@@ -3,6 +3,7 @@ from .active_rotated_filter import active_rotated_filter
 from .assign_score_withk import assign_score_withk
 from .ball_query import ball_query
 from .bbox import bbox_overlaps
+from .bezier_align import BezierAlign, bezier_align
 from .border_align import BorderAlign, border_align
 from .box_iou_rotated import box_iou_rotated
 from .carafe import CARAFE, CARAFENaive, CARAFEPack, carafe, carafe_naive
@@ -86,5 +87,5 @@ __all__ = [
     'voxelization', 'dynamic_scatter', 'DynamicScatter', 'RoIAwarePool3d',
     'points_in_boxes_part', 'points_in_boxes_cpu', 'points_in_boxes_all',
     'points_in_polygons', 'min_area_polygons', 'active_rotated_filter',
-    'convex_iou', 'convex_giou'
+    'convex_iou', 'convex_giou', 'BezierAlign', 'bezier_align'
 ]
